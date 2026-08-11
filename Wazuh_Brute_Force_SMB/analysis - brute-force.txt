@@ -1,0 +1,15 @@
+Alert: Rule 100100 — "Brute-force: 8+ failed logins in 30s"
+Time: Aug 9, 2026 @ 23:03:42.136 
+Agent: win11 (192.168.56.102)
+
+What triggered it:
+Between 23:03:27 and 23:03:44, the account haw received a rapid cluster of failed network logons. The volume — 8+ failures inside 30 seconds — exceeded the threshold of custom rule 100100, which fired at 23:03:42.136.
+
+Source:
+All failures originated from 192.168.56.103. This concentration is the signature of an automated brute-force tool, not user error.
+
+Outcome — did it succeed?
+At 23:03:46.272, immediately after the failures, a successful remote logon for haw was recorded from 192.168.56.103.
+→ Verdict: SUCCEEDED — confirmed compromise
+
+Note: rule 100100 (frequency=8) fires after 7 observed failures, which is consistent with Wazuh's zero-indexed frequency counter. Verified empirically.

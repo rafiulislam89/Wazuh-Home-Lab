@@ -1,0 +1,5 @@
+Detection Coverage Note: Port Scan (nmap)
+
+A SYN scan (nmap -sS -p- 192.168.56.102) was run from Kali against the Windows endpoint. It produced no alert in Wazuh.
+
+This is expected: Windows does not log port scans by default, so there was no log source for the agent to forward and no event for Wazuh to detect. This demonstrates a core detection-engineering principle - detection depends on log availability. No log source means no detection, regardless of rule quality. Catching scans would require enabling Windows Firewall logging and configuring the agent to monitor that log.
