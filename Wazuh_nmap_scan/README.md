@@ -1,4 +1,4 @@
-# Port Scan (nmap) — Detection Gap
+# Port Scan (nmap) - Detection Gap
 
 ## Objective
 
@@ -20,7 +20,7 @@ The scan completed and identified several open ports (135, 139, 445, 7680, 49668
 
 The scan produced **no alert in Wazuh**.
 
-This is expected — and it's the lesson. Windows does not log port scans by default: a SYN scan just probes ports and generates no Windows Security event. The Wazuh agent forwards Windows event logs, so with no event written, there was nothing for the agent to send and nothing for Wazuh to detect.
+This is expected - and it's the lesson. Windows does not log port scans by default: a SYN scan just probes ports and generates no Windows Security event. The Wazuh agent forwards Windows event logs, so with no event written, there was nothing for the agent to send and nothing for Wazuh to detect.
 
 ## Takeaway
 
@@ -31,4 +31,4 @@ A good rule can't fire on data that was never collected. To actually detect scan
 1. Enable Windows Firewall dropped-packet logging, and
 2. Configure the agent to monitor that firewall log (`pfirewall.log`),
 
-or place a network-based sensor (e.g. Suricata) in the path. This is a deliberate next step rather than a failure — it demonstrates understanding of *where* detection comes from.
+or place a network-based sensor (e.g. Suricata) in the path. This is a deliberate next step rather than a failure - it demonstrates understanding of *where* detection comes from.
