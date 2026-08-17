@@ -1,6 +1,6 @@
 # Wazuh Home Lab - SIEM Detection & Investigation
 
-A self-built home lab where I deployed [Wazuh](https://wazuh.com/) (open-source SIEM/XDR), generated real attacks against a monitored Windows endpoint, wrote a custom detection rule, and investigated the resulting alerts end-to-end.
+A self-built home lab where I deployed [Wazuh](https://wazuh.com/) (open-source SIEM/XDR), generated real attacks against a monitored Windows endpoint, wrote a custom detection rule, built an automated response, and investigated the resulting alerts end-to-end.
 
 The goal: hands-on experience operating a SIEM - ingesting logs, writing detections, and investigating alerts - not just installing a tool.
 
@@ -27,11 +27,16 @@ The agent forwards Windows event logs to the Wazuh server, where rules run and a
 **Port scan (nmap) - detection gap** - Ran an nmap SYN scan. It produced *no* alert, because Windows doesn't log port scans by default. Documented as a lesson: detection depends on log availability.
  [Full write-up](Wazuh_nmap_scan/README.md)
 
+ **Active Response - automated IP blocking** - Extended the brute-force detection into an automated response: rule 100100 fires, the attacker's IP is blocked at the endpoint firewall, and the block expires after 300 seconds. Wazuh's built-in script reported success while blocking nothing, so I used a custom Python response script and two rules (100201/100202) to make the response visible in the dashboard.
+ [Full write-up](Wazuh_Active_Response/README.md)
+
 ## Key takeaways
 
 - **Detection depends on logging.** Two of my three attacks exposed this: the port scan wasn't logged at all, and the malware detection only worked after adding the right log source.
 - **Rate is what separates attack from noise.** A single failed login and a brute-force look identical per-event; the custom rule detects the *pattern* over time.
 - **Empirical validation.** I tested my own rule's behavior rather than trusting the config - and found (and documented) a zero-indexed frequency quirk.
+- **A control that reports success isn't necessarily working.** The built-in active response fired its alert every time while never blocking anything - only veryfying the endpoint firewall itself revealed it.
+- **Response needs its own telemetry.** A working response that generates no alert is indistinguishable from one that isn't running.
 
 ## Files
 
@@ -40,3 +45,4 @@ The agent forwards Windows event logs to the Wazuh server, where rules run and a
 - `Wazuh_Brute_Force_SMB/` - brute-force attack, detection & investigation
 - `Wazuh_Malware_Detection/` - EICAR malware detection & investigation
 - `Wazuh_nmap_scan/` - port-scan detection-gap note
+- `Wazuh_Active_Response/` - automated attacker IP blocking
