@@ -35,7 +35,7 @@ The agent forwards Windows event logs to the Wazuh server, where rules run and a
 - **Detection depends on logging.** Two of my three attacks exposed this: the port scan wasn't logged at all, and the malware detection only worked after adding the right log source.
 - **Rate is what separates attack from noise.** A single failed login and a brute-force look identical per-event; the custom rule detects the *pattern* over time.
 - **Empirical validation.** I tested my own rule's behavior rather than trusting the config - and found (and documented) a zero-indexed frequency quirk.
-- **A control that reports success isn't necessarily working.** The built-in active response fired its alert every time while never blocking anything - only veryfying the endpoint firewall itself revealed it.
+- **A control that reports success isn't necessarily working.** The built-in active response fired its alert every time while never blocking anything - only verifying the endpoint firewall itself revealed it.
 - **Response needs its own telemetry.** A working response that generates no alert is indistinguishable from one that isn't running.
 
 ## Files
